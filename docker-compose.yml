@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  php:
+    image: php:5.3-apache
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./aplication/web:/var/www/html
+    ports:
+      - 8080:80
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./docker/db/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=database
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+    ports:
+      - "4306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=de0363009521
+      - PMA_USER=test
+      - PMA_PASSWORD=test
+    links:
+      - mysql
+    ports:
+      - 4040:80
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
+
+volumes:
+  db-store: null
