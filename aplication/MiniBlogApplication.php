@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * MiniBlogApplication.
+ *
+ * @author Katsuhiro Ogawa <fivestar@nequal.jp>
+ */
 class MiniBlogApplication extends Application
 {
     protected $login_action = array('account', 'signin');
@@ -9,19 +14,31 @@ class MiniBlogApplication extends Application
         return dirname(__FILE__);
     }
 
-    public function registerRoutes()
+    protected function registerRoutes()
     {
         return array(
-            '/account' => array('controller' => 'account', 'action' => 'index'),
-            'account/:action' => array('controller' => 'account'),
+            '/'
+                => array('controller' => 'status', 'action' => 'index'),
+            '/status/post'
+                => array('controller' => 'status', 'action' => 'post'),
+            '/user/:user_name'
+                => array('controller' => 'status', 'action' => 'user'),
+            '/user/:user_name/status/:id'
+                => array('controller' => 'status', 'action' => 'show'),
+            '/account'
+                => array('controller' => 'account', 'action' => 'index'),
+            '/account/:action'
+                => array('controller' => 'account'),
+            '/follow'
+                => array('controller' => 'account', 'action' => 'follow'),
         );
     }
 
     protected function configure()
     {
         $this->db_manager->connect('master', array(
-            'dsn' => 'mysql:dbname=online_bbs;host=a2b867c99eb7',
-            'user' => 'root',
+            'dsn'      => 'mysql:dbname=online_bbs;host=fda4536d3aa7',
+            'user'     => 'root',
             'password' => 'root',
         ));
     }
